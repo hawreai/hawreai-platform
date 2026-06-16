@@ -22,7 +22,6 @@ export default function Home() {
   const [agentRole, setAgentRole] = useState("support");
   const [isCreated, setIsCreated] = useState(false);
   
-  // وضعیت مربوط به ایجنت در حال چت
   const [activeChatAgent, setActiveChatAgent] = useState<Agent | null>(null);
   const [chatMessages, setChatMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState("");
@@ -43,7 +42,6 @@ export default function Home() {
     if (!agentName) return;
     
     setIsCreated(true);
-    
     setTimeout(() => {
       const newAgent: Agent = {
         id: Date.now().toString(),
@@ -61,51 +59,37 @@ export default function Home() {
   };
 
   const handleDeleteAgent = (id: string, e: React.MouseEvent) => {
-    e.stopPropagation(); // جلوگیری از باز شدن چت موقع حذف کردن
+    e.stopPropagation();
     setAgents(agents.filter(agent => agent.id !== id));
-    if (activeChatAgent?.id === id) {
-      setActiveChatAgent(null);
-    }
+    if (activeChatAgent?.id === id) setActiveChatAgent(null);
   };
 
-  // باز کردن پنجره چت با ایجنت انتخاب شده
   const handleOpenChat = (agent: Agent) => {
     setActiveChatAgent(agent);
-    
-    // پیام خوش‌آمدگویی پیش‌فرض بر اساس نقش ایجنت
-    let welcomeText = `Hello! I am ${agent.name}. How can I assist your business today?`;
+    let welcomeText = `Slaw! I am ${agent.name}, your virtual Hawre. How can I empower your business operations today?`;
     if (agent.role.includes("Sales")) {
-      welcomeText = `Hi there! I am ${agent.name}, your sales expert. Looking for a custom deal or lead qualification? Let's talk!`;
+      welcomeText = `Welcome! I am ${agent.name}. Ready to boost your revenue and automate client acquisitions.`;
     } else if (agent.role.includes("Internal")) {
-      welcomeText = `Systems online. I am ${agent.name}, your internal ops assistant. Ready to analyze company guidelines or docs.`;
+      welcomeText = `Systems active. I am ${agent.name}, trained on your company knowledge base. Let's work.`;
     }
 
-    setChatMessages([
-      { id: "welcome", sender: "agent", text: welcomeText }
-    ]);
+    setChatMessages([{ id: "welcome", sender: "agent", text: welcomeText }]);
   };
 
-  // ارسال پیام کاربر و پاسخ ایجنت
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputMessage.trim() || !activeChatAgent) return;
 
-    const userMsg: Message = {
-      id: Date.now().toString(),
-      sender: "user",
-      text: inputMessage
-    };
-
+    const userMsg: Message = { id: Date.now().toString(), sender: "user", text: inputMessage };
     setChatMessages(prev => [...prev, userMsg]);
     setInputMessage("");
     setIsAgentTyping(true);
 
-    // شبیه‌سازی فکر کردن و پاسخ هوش مصنوعی
     setTimeout(() => {
       const agentMsg: Message = {
         id: (Date.now() + 1).toString(),
         sender: "agent",
-        text: `This is a demo response from "${activeChatAgent.name}". Soon, I'll be connected to a real LLM brain to process your exact business query: "${userMsg.text}"`
+        text: `Spas for your message! This is a preview response from "${activeChatAgent.name}". In the next phase, my core brain will process your business prompt: "${userMsg.text}"`
       };
       setChatMessages(prev => [...prev, agentMsg]);
       setIsAgentTyping(false);
@@ -113,84 +97,136 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans selection:bg-white selection:text-black">
+    <div className="min-h-screen bg-black text-zinc-100 font-sans selection:bg-amber-500 selection:text-black relative overflow-x-hidden">
+      
+      {/* هاله‌های نوری پس‌زمینه الهام‌گرفته از رنگ‌های آفتاب و طبیعت کوردستان (مینیمال و تاریک) */}
+      <div className="absolute top-[-10%] left-[-20%] w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute top-[20%] right-[-10%] w-[700px] h-[700px] bg-amber-500/5 rounded-full blur-[180px] pointer-events-none" />
+      <div className="absolute top-[60%] left-[10%] w-[500px] h-[500px] bg-red-500/5 rounded-full blur-[150px] pointer-events-none" />
+
       {/* Navbar */}
-      <nav className="border-b border-zinc-900 sticky top-0 bg-black/50 backdrop-blur-md z-50">
+      <nav className="border-b border-zinc-900 sticky top-0 bg-black/60 backdrop-blur-xl z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-black font-black text-xl tracking-tighter">
-              H
+          
+          {/* لوگوی جدید ترکیبی: خورشید ۲۱ پره مدرن و حرف H */}
+          <div className="flex items-center gap-3 group cursor-pointer">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 via-orange-500 to-emerald-600 p-[1px] shadow-lg shadow-amber-500/10">
+              <div className="w-full h-full bg-black rounded-[11px] flex items-center justify-center relative overflow-hidden">
+                {/* نماد خطی پرتوهای خورشید در بک‌گراند لوگو */}
+                <div className="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-400 via-transparent to-transparent animate-spin-slow" />
+                <span className="font-black text-lg text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-300 relative z-10">H</span>
+              </div>
             </div>
-            <span className="font-bold text-xl tracking-tight">HAWRE <span className="text-zinc-500">AI</span></span>
+            <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
+              HAWRE <span className="text-amber-500 font-medium">AI</span>
+            </span>
           </div>
-          <div className="hidden md:flex items-center gap-8 text-sm text-zinc-400">
-            <a href="#dashboard" className="hover:text-white transition-colors">Console Dashboard</a>
+
+          <div className="hidden md:flex items-center gap-8 text-xs font-medium tracking-widest text-zinc-400 uppercase">
+            <a href="#dashboard" className="hover:text-amber-400 transition-colors">Console</a>
+            <a href="#about" className="hover:text-emerald-400 transition-colors">Identity</a>
           </div>
+
           <button 
             onClick={() => setIsOpen(true)}
-            className="text-sm font-semibold bg-white text-black px-4 py-2 rounded-full hover:bg-zinc-200 transition-all shadow-lg shadow-white/5"
+            className="text-xs uppercase tracking-widest font-bold bg-zinc-900 text-amber-400 border border-amber-500/30 px-5 py-2.5 rounded-xl hover:bg-amber-500 hover:text-black hover:border-amber-500 transition-all duration-300 shadow-md shadow-amber-500/5"
           >
-            Create Agent
+            Launch Agent
           </button>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 text-center relative overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-white/5 rounded-full blur-[120px] pointer-events-none" />
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-800 bg-zinc-900/50 text-xs text-zinc-400 mb-6 backdrop-blur-sm">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          HAWRE AI v0.3 Chat Interface Is Active
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-24 text-center relative z-10">
+        
+        {/* نشانگر وضعیت بالای هیرو */}
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-zinc-800 bg-zinc-900/40 text-xs text-zinc-400 mb-8 backdrop-blur-sm">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+          </span>
+          Next-Gen AI, Rooted in Partnership
         </div>
-        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight max-w-4xl mx-auto leading-[1.15] mb-8 bg-gradient-to-b from-white to-zinc-400 bg-clip-text text-transparent">
-          Build AI Agents For Your Business
+
+        {/* عنوان بزرگ با استایل فوق‌مدرن و گرادینت گلد سنتی خورشید */}
+        <h1 className="text-5xl md:text-8xl font-black tracking-tight max-w-5xl mx-auto leading-[1.05] mb-8 bg-gradient-to-b from-white via-zinc-200 to-zinc-600 bg-clip-text text-transparent">
+          Build Intelligent AI Agents For Business
         </h1>
-        <button 
-          onClick={() => setIsOpen(true)}
-          className="px-8 py-4 bg-white text-black rounded-xl font-bold hover:bg-zinc-200 transition-all text-base shadow-xl shadow-white/10"
-        >
-          Create Agent 🚀
-        </button>
+
+        <p className="text-base md:text-lg text-zinc-400 max-w-2xl mx-auto mb-12 leading-relaxed font-light">
+          Meet <span className="text-white font-medium">Hawre AI</span>. A sleek, hyper-fast console designed to craft personalized digital companions that automate workflows, secure business datasets, and guide operations.
+        </p>
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <button 
+            onClick={() => setIsOpen(true)}
+            className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-amber-400 to-orange-500 text-black rounded-xl font-bold hover:opacity-90 transition-all text-sm uppercase tracking-wider shadow-lg shadow-orange-500/10"
+          >
+            Create Your Hawre 🚀
+          </button>
+        </div>
       </main>
 
-      {/* Dashboard Section */}
-      <section id="dashboard" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-zinc-900">
-        <div className="flex items-center justify-between mb-8">
+      {/* Dashboard Console Section */}
+      <section id="dashboard" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-zinc-900 relative z-10">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-12 gap-4">
           <div>
-            <h2 className="text-2xl font-bold tracking-tight">Your AI Agents</h2>
-            <p className="text-sm text-zinc-400">Click on any agent to start talking or testing their knowledge.</p>
+            <div className="flex items-center gap-2 mb-1">
+              <div className="w-2 h-2 rounded-full bg-amber-500 shadow-sm shadow-amber-500" />
+              <h2 className="text-xl font-bold uppercase tracking-wider">Active Command Console</h2>
+            </div>
+            <p className="text-xs text-zinc-500">Deploy, interact, and monitor your organizational intelligence clusters.</p>
+          </div>
+          <div className="text-xs font-mono bg-zinc-900/60 border border-zinc-800 px-4 py-2 rounded-xl text-zinc-400">
+            CLUSTER_COUNT: <span className="text-amber-400 font-bold">{agents.length}</span>
           </div>
         </div>
 
         {agents.length === 0 ? (
-          <div className="text-center py-16 border border-dashed border-zinc-800 rounded-2xl bg-zinc-950/20">
-            <p className="text-zinc-500 mb-4">No agents found. Create your first one!</p>
+          <div className="text-center py-20 border border-dashed border-zinc-800 rounded-2xl bg-zinc-950/20 backdrop-blur-sm">
+            <p className="text-zinc-500 text-sm mb-4">Console empty. Ready for new neural deployments.</p>
+            <button 
+              onClick={() => setIsOpen(true)}
+              className="text-xs uppercase tracking-widest font-bold bg-zinc-900 border border-zinc-800 text-white px-5 py-2.5 rounded-xl hover:bg-zinc-800 transition-colors"
+            >
+              + Initialize Agent
+            </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {agents.map((agent) => (
               <div 
                 key={agent.id} 
                 onClick={() => handleOpenChat(agent)}
-                className="p-6 rounded-xl border border-zinc-900 bg-zinc-950/50 backdrop-blur-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 hover:border-zinc-700 transition-all cursor-pointer"
+                className="group p-6 rounded-2xl border border-zinc-900 bg-zinc-950/40 backdrop-blur-md flex flex-col justify-between gap-6 hover:border-amber-500/30 transition-all duration-300 cursor-pointer relative overflow-hidden"
               >
-                <div>
-                  <div className="flex items-center gap-3 mb-1">
-                    <h3 className="font-bold text-lg">{agent.name}</h3>
-                    <span className="px-2 py-0.5 text-[10px] uppercase font-extrabold tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded">
-                      {agent.status}
-                    </span>
+                {/* یک خط تزئینی مینیمال قرمز/سبز در بالای کارت‌ها هماهنگ با پرچم */}
+                <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-emerald-500/20 via-amber-500/20 to-red-500/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                <div className="flex items-start justify-between">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <h3 className="font-bold text-base text-zinc-200 group-hover:text-white transition-colors">{agent.name}</h3>
+                      <span className="text-[9px] px-2 py-0.5 rounded uppercase font-mono font-extrabold tracking-widest bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                        {agent.status}
+                      </span>
+                    </div>
+                    <p className="text-xs text-zinc-500 font-mono">{agent.role}</p>
                   </div>
-                  <p className="text-sm text-zinc-400">{agent.role}</p>
+                  
+                  {/* آیکون خورشید مینیاتوری مپ شده روی دکمه چت تکی */}
+                  <div className="w-7 h-7 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-500 group-hover:text-amber-400 group-hover:border-amber-500/30 transition-colors">
+                    ☼
+                  </div>
                 </div>
 
-                <div className="flex items-center justify-between sm:justify-end gap-6 text-sm">
-                  <span className="text-zinc-500 text-xs">Created: {agent.createdAt}</span>
+                <div className="flex items-center justify-between text-[11px] border-t border-zinc-900/60 pt-4 font-mono text-zinc-600">
+                  <span>DEPLOYED: {agent.createdAt}</span>
                   <button 
                     onClick={(e) => handleDeleteAgent(agent.id, e)}
-                    className="text-zinc-500 hover:text-red-400 transition-colors text-xs border border-zinc-800 hover:border-red-500/30 px-3 py-1.5 rounded-lg"
+                    className="hover:text-red-400 transition-colors border border-zinc-900 group-hover:border-zinc-800 px-2.5 py-1 rounded-md"
                   >
-                    Delete
+                    Purge
                   </button>
                 </div>
               </div>
@@ -199,37 +235,32 @@ export default function Home() {
         )}
       </section>
 
-      {/* Chat Console Panel (پنجره چت زنده) */}
+      {/* Chat Terminal Panel (پنجره چت سایبرپانک و کوردی-مینیمال) */}
       {activeChatAgent && (
-        <div className="fixed bottom-6 right-6 w-full max-w-md h-[500px] bg-zinc-950 border border-zinc-800 rounded-2xl shadow-2xl z-40 flex flex-col overflow-hidden animate-in slide-in-from-bottom-5 duration-300">
-          {/* Chat Header */}
-          <div className="p-4 border-b border-zinc-800 bg-zinc-900/40 flex items-center justify-between">
-            <div>
-              <h3 className="font-bold text-sm flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                {activeChatAgent.name}
-              </h3>
-              <p className="text-[11px] text-zinc-500">{activeChatAgent.role}</p>
+        <div className="fixed bottom-6 right-6 w-full max-w-md h-[520px] bg-black border border-zinc-800 rounded-2xl shadow-2xl shadow-amber-500/5 z-40 flex flex-col overflow-hidden animate-in slide-in-from-bottom-5 duration-300">
+          
+          {/* بخش هدر چت باکس */}
+          <div className="p-4 border-b border-zinc-900 bg-zinc-950/80 flex items-center justify-between relative">
+            {/* خط باریک تم پلتفرم */}
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-emerald-500 via-amber-400 to-red-500" />
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+              <div>
+                <h3 className="font-bold text-xs uppercase tracking-wider">{activeChatAgent.name}</h3>
+                <p className="text-[10px] text-zinc-500 font-mono">{activeChatAgent.role}</p>
+              </div>
             </div>
-            <button 
-              onClick={() => setActiveChatAgent(null)}
-              className="text-zinc-400 hover:text-white text-sm"
-            >
-              ✕
-            </button>
+            <button onClick={() => setActiveChatAgent(null)} className="text-zinc-500 hover:text-white text-xs p-1">✕</button>
           </div>
 
-          {/* Chat Messages List */}
-          <div className="flex-1 p-4 overflow-y-auto space-y-4 text-sm">
+          {/* پیام‌ها */}
+          <div className="flex-1 p-4 overflow-y-auto space-y-4 text-xs font-light">
             {chatMessages.map((msg) => (
-              <div 
-                key={msg.id} 
-                className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
-              >
-                <div className={`max-w-[80%] rounded-2xl px-4 py-2.5 leading-relaxed ${
+              <div key={msg.id} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
+                <div className={`max-w-[85%] rounded-xl px-4 py-3 leading-relaxed border ${
                   msg.sender === "user" 
-                    ? "bg-white text-black rounded-tr-none" 
-                    : "bg-zinc-900 text-zinc-100 border border-zinc-800 rounded-tl-none"
+                    ? "bg-zinc-100 text-black border-transparent font-medium" 
+                    : "bg-zinc-900/60 text-zinc-200 border-zinc-800/80"
                 }`}>
                   {msg.text}
                 </div>
@@ -237,27 +268,25 @@ export default function Home() {
             ))}
             {isAgentTyping && (
               <div className="flex justify-start">
-                <div className="bg-zinc-900 border border-zinc-800 text-zinc-500 rounded-2xl rounded-tl-none px-4 py-2.5 text-xs animate-pulse">
-                  Agent is formulating response...
+                <div className="text-zinc-600 font-mono text-[10px] flex items-center gap-1.5">
+                  <span className="w-1 h-1 rounded-full bg-amber-400 animate-bounce" />
+                  Hawre neural core responding...
                 </div>
               </div>
             )}
           </div>
 
-          {/* Chat Input Form */}
-          <form onSubmit={handleSendMessage} className="p-4 border-t border-zinc-800 bg-zinc-950">
+          {/* فرم ورودی مسیج */}
+          <form onSubmit={handleSendMessage} className="p-4 border-t border-zinc-900 bg-zinc-950/40 backdrop-blur-md">
             <div className="flex gap-2">
               <input 
                 type="text" 
-                placeholder={`Message ${activeChatAgent.name}...`}
+                placeholder={`Query ${activeChatAgent.name}...`}
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
-                className="flex-1 bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-zinc-700"
+                className="flex-1 bg-zinc-900/80 border border-zinc-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-amber-500/40 transition-colors"
               />
-              <button 
-                type="submit"
-                className="bg-white text-black font-bold px-4 rounded-xl text-sm hover:bg-zinc-200 transition-colors"
-              >
+              <button type="submit" className="bg-amber-400 hover:bg-amber-500 text-black font-bold px-4 rounded-xl text-xs transition-colors tracking-wider uppercase">
                 Send
               </button>
             </div>
@@ -265,35 +294,39 @@ export default function Home() {
         </div>
       )}
 
-      {/* Create Agent Modal */}
+      {/* Create Agent Modal (پاپ‌آپ فرم مینیمال) */}
       {isOpen && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div className="bg-zinc-950 border border-zinc-800 w-full max-w-md rounded-2xl p-6 relative shadow-2xl">
-            <button onClick={() => setIsOpen(false)} className="absolute top-4 right-4 text-zinc-500 hover:text-white text-lg">✕</button>
-            <h2 className="text-xl font-bold mb-1">Create Your AI Agent</h2>
-            <p className="text-sm text-zinc-400 mb-6">Configure your custom assistant in seconds.</p>
-            <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-zinc-950 border border-zinc-900 w-full max-w-sm rounded-2xl p-6 relative shadow-2xl">
+            <button onClick={() => setIsOpen(false)} className="absolute top-4 right-4 text-zinc-500 hover:text-white text-sm">✕</button>
+            
+            <h2 className="text-base uppercase tracking-widest font-bold mb-1">Initialize Agent Core</h2>
+            <p className="text-xs text-zinc-500 mb-6">Input configuration parameters below.</p>
+
+            <form onSubmit={handleSubmit} className="space-y-4 font-mono text-xs">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">Agent Name</label>
+                <label className="block text-[10px] uppercase tracking-wider text-zinc-500 mb-1.5">Agent Name</label>
                 <input 
-                  type="text" required placeholder="e.g., Sarah (Support Expert)" 
+                  type="text" required placeholder="e.g., Shivan (Sales Core)" 
                   value={agentName} onChange={(e) => setAgentName(e.target.value)}
-                  className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-zinc-500"
+                  className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white placeholder-zinc-700 focus:outline-none focus:border-amber-500/30"
                 />
               </div>
+
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">Primary Objective</label>
+                <label className="block text-[10px] uppercase tracking-wider text-zinc-500 mb-1.5">Objective Cluster</label>
                 <select 
                   value={agentRole} onChange={(e) => setAgentRole(e.target.value)}
-                  className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-zinc-500"
+                  className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500/30"
                 >
                   <option value="support">Customer Support & FAQ</option>
                   <option value="sales">Lead Generation & Sales</option>
                   <option value="internal">Internal Operations Expert</option>
                 </select>
               </div>
-              <button type="submit" disabled={isCreated} className="w-full mt-2 py-4 bg-white text-black font-bold rounded-xl hover:bg-zinc-200 transition-all">
-                {isCreated ? "Assembling Agent..." : "Deploy Agent →"}
+
+              <button type="submit" disabled={isCreated} className="w-full mt-4 py-3.5 bg-zinc-100 text-black font-bold rounded-xl hover:bg-amber-400 transition-all uppercase tracking-widest text-[11px]">
+                {isCreated ? "Injecting Data..." : "Deploy Agent →"}
               </button>
             </form>
           </div>
