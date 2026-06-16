@@ -1,4 +1,29 @@
+"use client";
+
+import { useState } from "react";
+
 export default function Home() {
+  // وضعیت برای باز و بسته شدن پاپ‌آپ ساخت ایجنت
+  const [isOpen, setIsOpen] = useState(false);
+  
+  // وضعیت اطلاعات فرم ایجنت
+  const [agentName, setAgentName] = useState("");
+  const [agentRole, setAgentRole] = useState("support");
+  const [isCreated, setIsCreated] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!agentName) return;
+    
+    setIsCreated(true);
+    setTimeout(() => {
+      setIsOpen(false);
+      setIsCreated(false);
+      alert(`Agent "${agentName}" created successfully! 🚀`);
+      setAgentName("");
+    }, 1500);
+  };
+
   return (
     <div className="min-h-screen bg-black text-white font-sans selection:bg-white selection:text-black">
       {/* Navbar */}
@@ -15,7 +40,10 @@ export default function Home() {
             <a href="#why-us" className="hover:text-white transition-colors">Why Hawre</a>
             <a href="#pricing" className="hover:text-white transition-colors">Pricing</a>
           </div>
-          <button className="text-sm font-semibold bg-white text-black px-4 py-2 rounded-full hover:bg-zinc-200 transition-all shadow-lg shadow-white/5">
+          <button 
+            onClick={() => setIsOpen(true)}
+            className="text-sm font-semibold bg-white text-black px-4 py-2 rounded-full hover:bg-zinc-200 transition-all shadow-lg shadow-white/5"
+          >
             Create Agent
           </button>
         </div>
@@ -39,7 +67,10 @@ export default function Home() {
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <button className="w-full sm:w-auto px-8 py-4 bg-white text-black rounded-xl font-bold hover:bg-zinc-200 transition-all text-base shadow-xl shadow-white/10">
+          <button 
+            onClick={() => setIsOpen(true)}
+            className="w-full sm:w-auto px-8 py-4 bg-white text-black rounded-xl font-bold hover:bg-zinc-200 transition-all text-base shadow-xl shadow-white/10"
+          >
             Create Agent 🚀
           </button>
           <button className="w-full sm:w-auto px-8 py-4 bg-zinc-900 border border-zinc-800 text-white rounded-xl font-bold hover:bg-zinc-800 transition-all text-base">
@@ -48,26 +79,57 @@ export default function Home() {
         </div>
       </main>
 
-      {/* Features Section */}
-      <section id="features" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-zinc-900">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="p-8 rounded-2xl border border-zinc-900 bg-zinc-950/40 backdrop-blur-sm hover:border-zinc-800 transition-all">
-            <div className="text-2xl mb-4">⚡</div>
-            <h3 className="text-lg font-bold mb-2">Instant Deployment</h3>
-            <p className="text-sm text-zinc-400 leading-relaxed">Train your agent on your data and deploy it to WhatsApp, Web, or Telegram in clicks.</p>
-          </div>
-          <div className="p-8 rounded-2xl border border-zinc-900 bg-zinc-950/40 backdrop-blur-sm hover:border-zinc-800 transition-all">
-            <div className="text-2xl mb-4">🧠</div>
-            <h3 className="text-lg font-bold mb-2">Custom Knowledge</h3>
-            <p className="text-sm text-zinc-400 leading-relaxed">Upload PDFs, URLs, or text documents. Your agent learns your business rules perfectly.</p>
-          </div>
-          <div className="p-8 rounded-2xl border border-zinc-900 bg-zinc-950/40 backdrop-blur-sm hover:border-zinc-800 transition-all">
-            <div className="text-2xl mb-4">📊</div>
-            <h3 className="text-lg font-bold mb-2">Advanced Analytics</h3>
-            <p className="text-sm text-zinc-400 leading-relaxed">Track conversations, conversion rates, and agent performance from a clean dashboard.</p>
+      {/* Agent Builder Modal (پاپ‌آپ فرم) */}
+      {isOpen && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+          <div className="bg-zinc-950 border border-zinc-800 w-full max-w-md rounded-2xl p-6 relative shadow-2xl animate-in fade-in zoom-in duration-200">
+            <button 
+              onClick={() => setIsOpen(false)}
+              className="absolute top-4 right-4 text-zinc-500 hover:text-white text-lg"
+            >
+              ✕
+            </button>
+            
+            <h2 className="text-xl font-bold mb-1">Create Your AI Agent</h2>
+            <p className="text-sm text-zinc-400 mb-6">Configure your custom assistant in seconds.</p>
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">Agent Name</label>
+                <input 
+                  type="text" 
+                  required
+                  placeholder="e.g., Sarah (Support Expert)" 
+                  value={agentName}
+                  onChange={(e) => setAgentName(e.target.value)}
+                  className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-zinc-500 transition-colors"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">Primary Objective</label>
+                <select 
+                  value={agentRole}
+                  onChange={(e) => setAgentRole(e.target.value)}
+                  className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-zinc-500 transition-colors"
+                >
+                  <option value="support">Customer Support & FAQ</option>
+                  <option value="sales">Lead Generation & Sales</option>
+                  <option value="internal">Internal Operations Expert</option>
+                </select>
+              </div>
+
+              <button 
+                type="submit"
+                disabled={isCreated}
+                className="w-full mt-2 py-4 bg-white text-black font-bold rounded-xl hover:bg-zinc-200 transition-all disabled:bg-zinc-700 disabled:text-zinc-400"
+              >
+                {isCreated ? "Assembling Agent..." : "Deploy Agent →"}
+              </button>
+            </form>
           </div>
         </div>
-      </section>
+      )}
     </div>
   );
 }
