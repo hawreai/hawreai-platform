@@ -2,16 +2,22 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { messages, agentRole, agentName } = await req.json();
+    const { messages, agentRole, agentName, language } = await req.json();
 
-    // بررسی اینکه آیا کلید اصلاً توسط ورسل خوانده می‌شود یا خیر
     if (!process.env.GROQ_API_KEY) {
-      return NextResponse.json({ 
-        text: "🚨 API Key Missing: The env variable GROQ_API_KEY is not detected by Vercel. Please redeploy." 
-      }, { status: 400 });
+      return NextResponse.json({ text: "🚨 API Key Missing" }, { status: 400 });
     }
 
-    let systemPrompt = `You are an AI assistant named ${agentName}. Your business role is: ${agentRole}.`;
+    // تنظیم دستورالعمل زبان بر اساس انتخاب کاربر
+    let langInstruction = "You must reply completely in English.";
+    if (language === "ku") {
+      langInstruction = "You must reply completely in Kurdish (Sorani/Kurmanji based on user style) using Kurdish alphabet.";
+    } else if (language === "fa") {
+      langInstruction = "You must reply completely in Persian (Farsi).";
+    }
+
+    let systemPrompt = `You are an AI assistant named ${agentName}. Your business role is: ${agentRole}. ${langInstruction}`;
+    
     if (agentRole.includes("Support")) {
       systemPrompt += " Be extremely polite, helpful, and focused on solving customer problems.";
     } else if (agentRole.includes("Sales")) {
@@ -35,26 +41,19 @@ export async function POST(req: Request) {
             content: m.text
           }))
         ],
-        temperature: 0.7,
+        temperature: 0.6, // کاهش دما برای ثبات بیشتر در زبان انتخابی
       }),
     });
 
     const data = await response.json();
 
-    // اگر سرور Groq ارور داد، جزئیات ارور را بفرست به فرانت‌ند
     if (data.error) {
-      return NextResponse.json({ 
-        text: `🚨 Groq Server Error: ${data.error.message} (Type: ${data.error.type})` 
-      });
+      return NextResponse.json({ text: `🚨 Groq Error: ${data.error.message}` });
     }
 
-    const reply = data.choices[0].message.content;
-    return NextResponse.json({ text: reply });
+    return NextResponse.json({ text: data.choices[0].message.content });
 
   } catch (error: any) {
-    console.error("Groq API Error:", error);
-    return NextResponse.json({ 
-      text: `🚨 Critical Core Error: ${error.message || "Unknown connection fault."}` 
-    }, { status: 500 });
+    return NextResponse.json({ text: "🚨 Connection fault." }, { status: 500 });
   }
 }
