@@ -77,26 +77,45 @@ export default function Home() {
   };
 
   const handleSendMessage = (e: React.FormEvent) => {
+// ارسال پیام به هوش مصنوعی واقعی
+  const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputMessage.trim() || !activeChatAgent) return;
 
     const userMsg: Message = { id: Date.now().toString(), sender: "user", text: inputMessage };
-    setChatMessages(prev => [...prev, userMsg]);
+    // اضافه کردن پیام کاربر به صفحه چت
+    const updatedMessages = [...chatMessages, userMsg];
+    setChatMessages(updatedMessages);
     setInputMessage("");
     setIsAgentTyping(true);
 
-    setTimeout(() => {
+    try {
+      // صدا زدن API داخلی که ساختیم
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: updatedMessages,
+          agentRole: activeChatAgent.role,
+          agentName: activeChatAgent.name
+        }),
+      });
+
+      const data = await response.json();
+      
       const agentMsg: Message = {
         id: (Date.now() + 1).toString(),
         sender: "agent",
-        text: `Spas for your message! This is a preview response from "${activeChatAgent.name}". In the next phase, my core brain will process your business prompt: "${userMsg.text}"`
+        text: data.text
       };
+      
       setChatMessages(prev => [...prev, agentMsg]);
+    } catch (error) {
+      console.error("Failed to fetch response:", error);
+    } finally {
       setIsAgentTyping(false);
-    }, 1000);
-  };
-
-  return (
+    }
+  };  return (
     <div className="min-h-screen bg-black text-zinc-100 font-sans selection:bg-amber-500 selection:text-black relative overflow-x-hidden">
       
       {/* هاله‌های نوری پس‌زمینه الهام‌گرفته از رنگ‌های آفتاب و طبیعت کوردستان (مینیمال و تاریک) */}
