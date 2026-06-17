@@ -16,7 +16,6 @@ interface Message {
   text: string;
 }
 
-// دیکشنری ترجمه زبان‌های سایت
 const translations = {
   en: {
     dir: "ltr",
@@ -100,7 +99,7 @@ const translations = {
 
 export default function Home() {
   const [lang, setLang] = useState<"en" | "ku" | "fa">("en");
-  const t = translations[lang];
+  const t = translations[lang] || translations.en;
 
   const [isOpen, setIsOpen] = useState(false);
   const [agentName, setAgentName] = useState("");
@@ -176,7 +175,7 @@ export default function Home() {
           messages: updatedMessages,
           agentRole: activeChatAgent.role,
           agentName: activeChatAgent.name,
-          language: lang // فرستادن زبان زنده سایت به هوش مصنوعی
+          language: lang
         }),
       });
 
@@ -191,7 +190,7 @@ export default function Home() {
       setChatMessages(prev => [...prev, agentMsg]);
     } catch (error) {
       console.error("Failed to fetch response:", error);
-    } finaly {
+    } finally {
       setIsAgentTyping(false);
     }
   };
@@ -199,7 +198,6 @@ export default function Home() {
   return (
     <div dir={t.dir} className="min-h-screen bg-black text-zinc-100 font-sans selection:bg-amber-500 selection:text-black relative overflow-x-hidden">
       
-      {/* هاله‌های نوری */}
       <div className="absolute top-[-10%] left-[-20%] w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-[160px] pointer-events-none" />
       <div className="absolute top-[20%] right-[-10%] w-[700px] h-[700px] bg-amber-500/5 rounded-full blur-[180px] pointer-events-none" />
 
@@ -218,11 +216,11 @@ export default function Home() {
             </span>
           </div>
 
-          {/* سلکتور انتخاب زبان بسیار شیک */}
-          <div className="flex items-center gap-2 bg-zinc-900/80 p-1 rounded-xl border border-zinc-800">
-            <button onClick={() => setLang("en")} className={`px-2.5 py-1 text-[11px] font-bold rounded-lg transition-all ${lang === "en" ? "bg-amber-500 text-black" : "text-zinc-400 hover:text-white"}`}>EN</button>
-            <button onClick={() => setLang("ku")} className={`px-2.5 py-1 text-[11px] font-bold rounded-lg transition-all ${lang === "ku" ? "bg-amber-500 text-black" : "text-zinc-400 hover:text-white"}`}>کوردی</button>
-            <button onClick={() => setLang("fa")} className={`px-2.5 py-1 text-[11px] font-bold rounded-lg transition-all ${lang === "fa" ? "bg-amber-500 text-black" : "text-zinc-400 hover:text-white"}`}>فارسی</button>
+          {/* منوی زبان اختصاصی دکمه‌ای ثابت با بالاترین اولویت z-index */}
+          <div className="flex items-center gap-2 bg-zinc-900/90 p-1 rounded-xl border border-zinc-800 relative z-50">
+            <button type="button" onClick={() => setLang("en")} className={`px-3 py-1 text-[11px] font-bold rounded-lg transition-all ${lang === "en" ? "bg-amber-500 text-black shadow" : "text-zinc-400 hover:text-white"}`}>EN</button>
+            <button type="button" onClick={() => setLang("ku")} className={`px-3 py-1 text-[11px] font-bold rounded-lg transition-all ${lang === "ku" ? "bg-amber-500 text-black shadow" : "text-zinc-400 hover:text-white"}`}>کوردی</button>
+            <button type="button" onClick={() => setLang("fa")} className={`px-3 py-1 text-[11px] font-bold rounded-lg transition-all ${lang === "fa" ? "bg-amber-500 text-black shadow" : "text-zinc-400 hover:text-white"}`}>فارسی</button>
           </div>
 
           <button 
