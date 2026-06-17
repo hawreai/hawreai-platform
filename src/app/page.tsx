@@ -44,7 +44,7 @@ const translations = {
   ku: {
     dir: "rtl",
     logo: "هاوڕێ",
-    heroBadge: "نەوەی نوێی ژیری دەستکرد، ڕەگداکوتاو لە هاوڕێیەتی",
+    heroBadge: "نەوەی نوێی ژیری دەستکرد, ڕەگداکوتاو لە هاوڕێیەتی",
     heroTitle: "بریکارانی زیرەک بۆ بزنسەکەت دروست بکە",
     heroDesc: "ناسینێ دۆستی نوێ لایەنی هاوڕێ AI. کۆنسڵێکی خێرا و مۆدێرن بۆ دیزاینکردنی هاوڕێی دیجیتاڵی تایبەت.",
     createBtn: "دروستکردنی هاوڕێ 🚀",
@@ -84,7 +84,7 @@ const translations = {
     objectiveLabel: "هدف اصلی دستیار",
     deployBtn: "استقرار ایجنت ←",
     loadingBtn: "در حال تزریق داده‌ها...",
-    welcomeSupport: "سلام! چطور می‌توانم امروز به کسب‌وکار شما کمک کنم?‌",
+    welcomeSupport: "سلام! چطور می‌توانم امروز به کسب‌وکار شما کمک کنم؟",
     typing: "هسته هوشمند هاورێ در حال پاسخگویی...",
     queryPlaceholder: "پیام به",
     send: "ارسال"
@@ -159,25 +159,47 @@ export default function Home() {
   return (
     <div dir={t.dir} className="min-h-screen bg-black text-zinc-100 font-sans selection:bg-amber-500 selection:text-black relative overflow-x-hidden">
       
-      {/* ☀️ خورشید شیشه‌ای مینیمال در اعماق پس‌زمینه */}
-      <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0">
-        <div className="relative w-[150vh] h-[150vh] flex items-center justify-center">
+      {/* ☀️ خورشید اصیل ۲۱ پرتو کوردستان - کاملاً بهینه‌سازی شده در بک‌گراند ثابت */}
+      <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden opacity-25">
+        <div className="relative w-[85vh] h-[85vh] flex items-center justify-center scale-110 md:scale-100">
           
-          {/* مرکز خورشید: تاریک و غیرقابل دیدن */}
-          <div className="absolute w-[20%] h-[20%] bg-black rounded-full shadow-[0_0_150px_70px_rgba(251,191,36,0.3)] z-10" />
+          {/* هاله شیشه‌ای بزرگ زیر خورشید برای پخش نرم نور طلایی زرد */}
+          <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-yellow-500/20 to-amber-600/5 blur-[120px] rounded-full animate-pulse duration-[6000ms]" />
 
-          {/* لایه‌های شیشه‌ای (Glassmorphism) و نور پخش‌شده در اطراف */}
-          <div className="absolute w-[35%] h-[35%] rounded-full bg-amber-400/5 backdrop-blur-3xl border border-amber-400/10 shadow-[0_0_100px_40px_rgba(251,191,36,0.2)] z-0" />
-          <div className="absolute w-[60%] h-[60%] rounded-full bg-amber-400/3 backdrop-blur-xl border border-amber-400/5 shadow-[0_0_150px_90px_rgba(251,191,36,0.15)] -z-10" />
-          <div className="absolute w-[100%] h-[100%] rounded-full bg-amber-400/2 blur-[130px] opacity-70 -z-20" />
+          {/* ساختار وکتور دقیق ۲۱ پرتو خورشید کوردستان */}
+          <svg viewBox="0 0 200 200" className="w-full h-full text-amber-400 drop-shadow-[0_0_60px_rgba(245,158,11,0.5)]">
+            <defs>
+              <linearGradient id="sunGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#fbbf24" />
+                <stop offset="50%" stopColor="#f59e0b" />
+                <stop offset="100%" stopColor="#d97706" />
+              </linearGradient>
+            </defs>
+            <g transform="translate(100,100)">
+              {/* ایجاد دقیق ۲۱ پرتو زاویه‌دار با فرمول هندسی مستقل */}
+              {Array.from({ length: 21 }).map((_, i) => (
+                <polygon
+                  key={i}
+                  points="0,-95 7,-35 -7,-35"
+                  fill="url(#sunGlow)"
+                  transform={`rotate(${(i * 360) / 21})`}
+                />
+              ))}
+              {/* مرکز اصلی خورشید */}
+              <circle r="36" fill="url(#sunGlow)" className="stroke-black/10 stroke-2" />
+            </g>
+          </svg>
+
+          {/* ماسک گرادینت تاریک روی مرکز خورشید جهت حفظ خوانایی عالی متون روی دکمه‌ها */}
+          <div className="absolute w-[40%] h-[40%] bg-black/40 backdrop-blur-md rounded-full border border-white/5 shadow-2xl" />
         </div>
       </div>
 
-      {/* تمام محتوای سایت با z-10 در جلوی خورشید قرار گرفته‌اند */}
+      {/* تمام لایه‌های اصلی پلتفرم با z-10 بدون تداخل با پس‌زمینه خورشید */}
       <div className="relative z-10">
         
         {/* Navbar */}
-        <nav className="border-b border-zinc-900 sticky top-0 bg-black/60 backdrop-blur-xl z-50">
+        <nav className="border-b border-zinc-900/80 sticky top-0 bg-black/60 backdrop-blur-xl z-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 via-orange-500 to-emerald-600 p-[1px]">
@@ -190,7 +212,7 @@ export default function Home() {
               </span>
             </div>
 
-            {/* منوی زبان دکمه‌ای */}
+            {/* منوی زبان دکمه‌ای ثابت */}
             <div className="flex items-center gap-2 bg-zinc-900/90 p-1 rounded-xl border border-zinc-800 z-50">
               <button type="button" onClick={() => setLang("en")} className={`px-3 py-1 text-[11px] font-bold rounded-lg transition-all ${lang === "en" ? "bg-amber-500 text-black shadow" : "text-zinc-400 hover:text-white"}`}>EN</button>
               <button type="button" onClick={() => setLang("ku")} className={`px-3 py-1 text-[11px] font-bold rounded-lg transition-all ${lang === "ku" ? "bg-amber-500 text-black shadow" : "text-zinc-400 hover:text-white"}`}>کوردی</button>
@@ -212,10 +234,10 @@ export default function Home() {
           <h1 className="text-4xl md:text-7xl font-black tracking-tight max-w-5xl mx-auto leading-[1.15] mb-8 bg-gradient-to-b from-white via-zinc-200 to-zinc-500 bg-clip-text text-transparent">
             {t.heroTitle}
           </h1>
-          <p className="text-sm md:text-base text-zinc-400 max-w-2xl mx-auto mb-12 font-light">
+          <p className="text-sm md:text-base text-zinc-400 max-w-2xl mx-auto mb-12 font-light drop-shadow-sm">
             {t.heroDesc}
           </p>
-          <button onClick={() => setIsOpen(true)} className="px-8 py-4 bg-gradient-to-r from-amber-400 to-orange-500 text-black rounded-xl font-bold hover:opacity-90 transition-all text-sm uppercase tracking-wider shadow-xl shadow-orange-500/10">
+          <button onClick={() => setIsOpen(true)} className="px-8 py-4 bg-gradient-to-r from-amber-400 to-orange-500 text-black rounded-xl font-bold hover:opacity-90 transition-all text-sm uppercase tracking-wider shadow-2xl shadow-amber-500/10 relative z-20">
             {t.createBtn}
           </button>
         </main>
@@ -266,7 +288,7 @@ export default function Home() {
 
         {/* Chat Terminal */}
         {activeChatAgent && (
-          <div className={`fixed bottom-6 ${lang === "en" ? "right-6" : "left-6"} w-full max-w-md h-[520px] bg-black border border-zinc-800 rounded-2xl shadow-2xl shadow-amber-500/5 z-40 flex flex-col overflow-hidden animate-in slide-in-from-bottom-5 duration-300`}>
+          <div className={`fixed bottom-6 ${lang === "en" ? "right-6" : "left-6"} w-full max-w-md h-[520px] bg-black/95 border border-zinc-800 rounded-2xl shadow-2xl shadow-amber-500/5 z-40 flex flex-col overflow-hidden animate-in slide-in-from-bottom-5 duration-300`}>
             <div className="p-4 border-b border-zinc-900 bg-zinc-950/80 backdrop-blur-md flex items-center justify-between relative">
               <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-emerald-500 via-amber-400 to-red-500" />
               <div className="flex items-center gap-3">
@@ -302,7 +324,7 @@ export default function Home() {
 
         {/* Create Agent Modal */}
         {isOpen && (
-          <div className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black/95 backdrop-blur-sm z-50 flex items-center justify-center p-4">
             <div className="bg-zinc-950 border border-zinc-800 w-full max-w-sm rounded-2xl p-6 relative shadow-2xl shadow-amber-500/5 animate-in fade-in zoom-in-95 duration-200">
               <button onClick={() => setIsOpen(false)} className="absolute top-4 right-4 text-zinc-500 hover:text-white text-sm p-1">✕</button>
               <h2 className="text-base font-bold mb-1 uppercase tracking-wider">{t.modalTitle}</h2>
