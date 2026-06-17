@@ -76,21 +76,17 @@ export default function Home() {
     setChatMessages([{ id: "welcome", sender: "agent", text: welcomeText }]);
   };
 
-  const handleSendMessage = (e: React.FormEvent) => {
-// ارسال پیام به هوش مصنوعی واقعی
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputMessage.trim() || !activeChatAgent) return;
 
     const userMsg: Message = { id: Date.now().toString(), sender: "user", text: inputMessage };
-    // اضافه کردن پیام کاربر به صفحه چت
     const updatedMessages = [...chatMessages, userMsg];
     setChatMessages(updatedMessages);
     setInputMessage("");
     setIsAgentTyping(true);
 
     try {
-      // صدا زدن API داخلی که ساختیم
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -115,10 +111,12 @@ export default function Home() {
     } finally {
       setIsAgentTyping(false);
     }
-  };  return (
+  };
+
+  return (
     <div className="min-h-screen bg-black text-zinc-100 font-sans selection:bg-amber-500 selection:text-black relative overflow-x-hidden">
       
-      {/* هاله‌های نوری پس‌زمینه الهام‌گرفته از رنگ‌های آفتاب و طبیعت کوردستان (مینیمال و تاریک) */}
+      {/* هاله‌های نوری پس‌زمینه */}
       <div className="absolute top-[-10%] left-[-20%] w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-[160px] pointer-events-none" />
       <div className="absolute top-[20%] right-[-10%] w-[700px] h-[700px] bg-amber-500/5 rounded-full blur-[180px] pointer-events-none" />
       <div className="absolute top-[60%] left-[10%] w-[500px] h-[500px] bg-red-500/5 rounded-full blur-[150px] pointer-events-none" />
@@ -127,12 +125,9 @@ export default function Home() {
       <nav className="border-b border-zinc-900 sticky top-0 bg-black/60 backdrop-blur-xl z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           
-          {/* لوگوی جدید ترکیبی: خورشید ۲۱ پره مدرن و حرف H */}
           <div className="flex items-center gap-3 group cursor-pointer">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 via-orange-500 to-emerald-600 p-[1px] shadow-lg shadow-amber-500/10">
               <div className="w-full h-full bg-black rounded-[11px] flex items-center justify-center relative overflow-hidden">
-                {/* نماد خطی پرتوهای خورشید در بک‌گراند لوگو */}
-                <div className="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-400 via-transparent to-transparent animate-spin-slow" />
                 <span className="font-black text-lg text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-300 relative z-10">H</span>
               </div>
             </div>
@@ -143,7 +138,6 @@ export default function Home() {
 
           <div className="hidden md:flex items-center gap-8 text-xs font-medium tracking-widest text-zinc-400 uppercase">
             <a href="#dashboard" className="hover:text-amber-400 transition-colors">Console</a>
-            <a href="#about" className="hover:text-emerald-400 transition-colors">Identity</a>
           </div>
 
           <button 
@@ -157,8 +151,6 @@ export default function Home() {
 
       {/* Hero Section */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-24 text-center relative z-10">
-        
-        {/* نشانگر وضعیت بالای هیرو */}
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-zinc-800 bg-zinc-900/40 text-xs text-zinc-400 mb-8 backdrop-blur-sm">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
@@ -167,7 +159,6 @@ export default function Home() {
           Next-Gen AI, Rooted in Partnership
         </div>
 
-        {/* عنوان بزرگ با استایل فوق‌مدرن و گرادینت گلد سنتی خورشید */}
         <h1 className="text-5xl md:text-8xl font-black tracking-tight max-w-5xl mx-auto leading-[1.05] mb-8 bg-gradient-to-b from-white via-zinc-200 to-zinc-600 bg-clip-text text-transparent">
           Build Intelligent AI Agents For Business
         </h1>
@@ -204,12 +195,6 @@ export default function Home() {
         {agents.length === 0 ? (
           <div className="text-center py-20 border border-dashed border-zinc-800 rounded-2xl bg-zinc-950/20 backdrop-blur-sm">
             <p className="text-zinc-500 text-sm mb-4">Console empty. Ready for new neural deployments.</p>
-            <button 
-              onClick={() => setIsOpen(true)}
-              className="text-xs uppercase tracking-widest font-bold bg-zinc-900 border border-zinc-800 text-white px-5 py-2.5 rounded-xl hover:bg-zinc-800 transition-colors"
-            >
-              + Initialize Agent
-            </button>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -219,7 +204,6 @@ export default function Home() {
                 onClick={() => handleOpenChat(agent)}
                 className="group p-6 rounded-2xl border border-zinc-900 bg-zinc-950/40 backdrop-blur-md flex flex-col justify-between gap-6 hover:border-amber-500/30 transition-all duration-300 cursor-pointer relative overflow-hidden"
               >
-                {/* یک خط تزئینی مینیمال قرمز/سبز در بالای کارت‌ها هماهنگ با پرچم */}
                 <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-emerald-500/20 via-amber-500/20 to-red-500/20 opacity-0 group-hover:opacity-100 transition-opacity" />
 
                 <div className="flex items-start justify-between">
@@ -233,7 +217,6 @@ export default function Home() {
                     <p className="text-xs text-zinc-500 font-mono">{agent.role}</p>
                   </div>
                   
-                  {/* آیکون خورشید مینیاتوری مپ شده روی دکمه چت تکی */}
                   <div className="w-7 h-7 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-500 group-hover:text-amber-400 group-hover:border-amber-500/30 transition-colors">
                     ☼
                   </div>
@@ -254,13 +237,10 @@ export default function Home() {
         )}
       </section>
 
-      {/* Chat Terminal Panel (پنجره چت سایبرپانک و کوردی-مینیمال) */}
+      {/* Chat Terminal Panel */}
       {activeChatAgent && (
-        <div className="fixed bottom-6 right-6 w-full max-w-md h-[520px] bg-black border border-zinc-800 rounded-2xl shadow-2xl shadow-amber-500/5 z-40 flex flex-col overflow-hidden animate-in slide-in-from-bottom-5 duration-300">
-          
-          {/* بخش هدر چت باکس */}
+        <div className="fixed bottom-6 right-6 w-full max-w-md h-[520px] bg-black border border-zinc-800 rounded-2xl shadow-2xl shadow-amber-500/5 z-40 flex flex-col overflow-hidden">
           <div className="p-4 border-b border-zinc-900 bg-zinc-950/80 flex items-center justify-between relative">
-            {/* خط باریک تم پلتفرم */}
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-emerald-500 via-amber-400 to-red-500" />
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
@@ -272,7 +252,6 @@ export default function Home() {
             <button onClick={() => setActiveChatAgent(null)} className="text-zinc-500 hover:text-white text-xs p-1">✕</button>
           </div>
 
-          {/* پیام‌ها */}
           <div className="flex-1 p-4 overflow-y-auto space-y-4 text-xs font-light">
             {chatMessages.map((msg) => (
               <div key={msg.id} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
@@ -295,17 +274,16 @@ export default function Home() {
             )}
           </div>
 
-          {/* فرم ورودی مسیج */}
-          <form onSubmit={handleSendMessage} className="p-4 border-t border-zinc-900 bg-zinc-950/40 backdrop-blur-md">
+          <form onSubmit={handleSendMessage} className="p-4 border-t border-zinc-900 bg-zinc-950/40">
             <div className="flex gap-2">
               <input 
                 type="text" 
                 placeholder={`Query ${activeChatAgent.name}...`}
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
-                className="flex-1 bg-zinc-900/80 border border-zinc-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-amber-500/40 transition-colors"
+                className="flex-1 bg-zinc-900/80 border border-zinc-800 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500/40"
               />
-              <button type="submit" className="bg-amber-400 hover:bg-amber-500 text-black font-bold px-4 rounded-xl text-xs transition-colors tracking-wider uppercase">
+              <button type="submit" className="bg-amber-400 hover:bg-amber-500 text-black font-bold px-4 rounded-xl text-xs tracking-wider uppercase">
                 Send
               </button>
             </div>
@@ -313,7 +291,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* Create Agent Modal (پاپ‌آپ فرم مینیمال) */}
+      {/* Create Agent Modal */}
       {isOpen && (
         <div className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-zinc-950 border border-zinc-900 w-full max-w-sm rounded-2xl p-6 relative shadow-2xl">
