@@ -84,7 +84,7 @@ const translations = {
     objectiveLabel: "هدف اصلی دستیار",
     deployBtn: "استقرار ایجنت ←",
     loadingBtn: "در حال تزریق داده‌ها...",
-    welcomeSupport: "سلام! چطور می‌توانم امروز به کسب‌وکار شما کمک کنم؟",
+    welcomeSupport: "سلام! چطور می‌توانم امروز به کسب‌وکار شما کمک کنم?‌",
     typing: "هسته هوشمند هاورێ در حال پاسخگویی...",
     queryPlaceholder: "پیام به",
     send: "ارسال"
@@ -159,12 +159,11 @@ export default function Home() {
   return (
     <div dir={t.dir} className="min-h-screen bg-black text-zinc-100 font-sans selection:bg-amber-500 selection:text-black relative overflow-x-hidden">
       
-      {/* ☀️ غول مرحله آخر: خورشید شیشه‌ای مینیمال در اعماق پس‌زمینه */}
-      {/* این المان با z-0 در پشت‌ترین لایه قرار گرفته و فقط نور آن به صورت غیرمستقیم پخش می‌شود */}
+      {/* ☀️ خورشید شیشه‌ای مینیمال در اعماق پس‌زمینه */}
       <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0">
         <div className="relative w-[150vh] h-[150vh] flex items-center justify-center">
           
-          {/* مرکز خورشید: تاریک و غیرقابل دیدن (همان‌طور که گفتی) */}
+          {/* مرکز خورشید: تاریک و غیرقابل دیدن */}
           <div className="absolute w-[20%] h-[20%] bg-black rounded-full shadow-[0_0_150px_70px_rgba(251,191,36,0.3)] z-10" />
 
           {/* لایه‌های شیشه‌ای (Glassmorphism) و نور پخش‌شده در اطراف */}
@@ -212,7 +211,6 @@ export default function Home() {
           </div>
           <h1 className="text-4xl md:text-7xl font-black tracking-tight max-w-5xl mx-auto leading-[1.15] mb-8 bg-gradient-to-b from-white via-zinc-200 to-zinc-500 bg-clip-text text-transparent">
             {t.heroTitle}
-          }
           </h1>
           <p className="text-sm md:text-base text-zinc-400 max-w-2xl mx-auto mb-12 font-light">
             {t.heroDesc}
@@ -266,7 +264,7 @@ export default function Home() {
           )}
         </section>
 
-        {/* Chat Terminal با استایل شیشه‌ای هماهنگ */}
+        {/* Chat Terminal */}
         {activeChatAgent && (
           <div className={`fixed bottom-6 ${lang === "en" ? "right-6" : "left-6"} w-full max-w-md h-[520px] bg-black border border-zinc-800 rounded-2xl shadow-2xl shadow-amber-500/5 z-40 flex flex-col overflow-hidden animate-in slide-in-from-bottom-5 duration-300`}>
             <div className="p-4 border-b border-zinc-900 bg-zinc-950/80 backdrop-blur-md flex items-center justify-between relative">
