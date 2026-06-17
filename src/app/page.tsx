@@ -44,7 +44,7 @@ const translations = {
   ku: {
     dir: "rtl",
     logo: "هاوڕێ",
-    heroBadge: "نەوەی نوێی ژیری دەستکرد, ڕەگداکوتاو لە هاوڕێیەتی",
+    heroBadge: "نەوەی نوێی ژیری دەستکرد، ڕەگداکوتاو لە هاوڕێیەتی",
     heroTitle: "بریکارانی زیرەک بۆ بزنسەکەت دروست بکە",
     heroDesc: "ناسینێ دۆستی نوێ لایەنی هاوڕێ AI. کۆنسڵێکی خێرا و مۆدێرن بۆ دیزاینکردنی هاوڕێی دیجیتاڵی تایبەت.",
     createBtn: "دروستکردنی هاوڕێ 🚀",
@@ -159,47 +159,53 @@ export default function Home() {
   return (
     <div dir={t.dir} className="min-h-screen bg-black text-zinc-100 font-sans selection:bg-amber-500 selection:text-black relative overflow-x-hidden">
       
-      {/* ☀️ خورشید اصیل ۲۱ پرتو کوردستان - کاملاً بهینه‌سازی شده در بک‌گراند ثابت */}
-      <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden opacity-25">
-        <div className="relative w-[85vh] h-[85vh] flex items-center justify-center scale-110 md:scale-100">
+      {/* 💎 خورشید کریستالی و فوق‌ملایم ۲۱ پرتو کوردستان در پس‌زمینه ثابت */}
+      <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden mix-blend-screen opacity-15">
+        <div className="relative w-[120vh] h-[120vh] flex items-center justify-center scale-110 md:scale-100">
           
-          {/* هاله شیشه‌ای بزرگ زیر خورشید برای پخش نرم نور طلایی زرد */}
-          <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-yellow-500/20 to-amber-600/5 blur-[120px] rounded-full animate-pulse duration-[6000ms]" />
+          {/* هاله نوری کریستالی سفید-طلایی در دورترین لایه پس‌زمینه */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-white/5 via-amber-400/10 to-yellow-300/5 blur-[160px] rounded-full" />
 
-          {/* ساختار وکتور دقیق ۲۱ پرتو خورشید کوردستان */}
-          <svg viewBox="0 0 200 200" className="w-full h-full text-amber-400 drop-shadow-[0_0_60px_rgba(245,158,11,0.5)]">
+          {/* ساختار خورشید اصیل با گرادینت‌های شیشه‌ای خیره‌کننده */}
+          <svg viewBox="0 0 200 200" className="w-full h-full text-white/40 drop-shadow-[0_0_80px_rgba(251,191,36,0.25)]">
             <defs>
-              <linearGradient id="sunGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#fbbf24" />
-                <stop offset="50%" stopColor="#f59e0b" />
-                <stop offset="100%" stopColor="#d97706" />
+              {/* گرادینت کریستالی شفاف برای پرتوها */}
+              <linearGradient id="crystalRay" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#ffffff" stopOpacity={0.6} />
+                <stop offset="40%" stopColor="#fef08a" stopOpacity={0.3} />
+                <stop offset="100%" stopColor="#fbbf24" stopOpacity={0.05} />
+              </linearGradient>
+              {/* گرادینت مرکز خورشید */}
+              <linearGradient id="crystalCore" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#ffffff" stopOpacity={0.5} />
+                <stop offset="100%" stopColor="#f59e0b" stopOpacity={0.1} />
               </linearGradient>
             </defs>
             <g transform="translate(100,100)">
-              {/* ایجاد دقیق ۲۱ پرتو زاویه‌دار با فرمول هندسی مستقل */}
+              {/* هندسه دقیق ۲۱ پرتو کوردستان با استایل کریستالی تراش‌خورده */}
               {Array.from({ length: 21 }).map((_, i) => (
-                <polygon
-                  key={i}
-                  points="0,-95 7,-35 -7,-35"
-                  fill="url(#sunGlow)"
-                  transform={`rotate(${(i * 360) / 21})`}
-                />
+                <g key={i} transform={`rotate(${(i * 360) / 21})`}>
+                  {/* پرتو اصلی راست */}
+                  <polygon points="0,-95 8,-32 0,-32" fill="url(#crystalRay)" />
+                  {/* پرتو متقارن چپ جهت ایجاد افکت تراش سه بعدی کریستال */}
+                  <polygon points="0,-95 -8,-32 0,-32" fill="url(#crystalRay)" opacity={0.6} />
+                </g>
               ))}
-              {/* مرکز اصلی خورشید */}
-              <circle r="36" fill="url(#sunGlow)" className="stroke-black/10 stroke-2" />
+              {/* هسته مرکزی کریستال با لبه‌های نرم */}
+              <circle r="32" fill="url(#crystalCore)" className="stroke-white/20 stroke-[0.5]" />
             </g>
           </svg>
 
-          {/* ماسک گرادینت تاریک روی مرکز خورشید جهت حفظ خوانایی عالی متون روی دکمه‌ها */}
-          <div className="absolute w-[40%] h-[40%] bg-black/40 backdrop-blur-md rounded-full border border-white/5 shadow-2xl" />
+          {/* فیلتر بلور کریستالی نهایی بر روی پس‌زمینه کلی خورشید */}
+          <div className="absolute inset-0 backdrop-blur-[2px] pointer-events-none" />
         </div>
       </div>
 
-      {/* تمام لایه‌های اصلی پلتفرم با z-10 بدون تداخل با پس‌زمینه خورشید */}
+      {/* محتوای پلتفرم در لایه جلویی z-10 بدون کوچک‌ترین مزاحمت از بک‌گراند */}
       <div className="relative z-10">
         
         {/* Navbar */}
-        <nav className="border-b border-zinc-900/80 sticky top-0 bg-black/60 backdrop-blur-xl z-50">
+        <nav className="border-b border-zinc-900/60 sticky top-0 bg-black/50 backdrop-blur-xl z-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 via-orange-500 to-emerald-600 p-[1px]">
@@ -212,8 +218,8 @@ export default function Home() {
               </span>
             </div>
 
-            {/* منوی زبان دکمه‌ای ثابت */}
-            <div className="flex items-center gap-2 bg-zinc-900/90 p-1 rounded-xl border border-zinc-800 z-50">
+            {/* منوی زبان دکمه‌ای */}
+            <div className="flex items-center gap-2 bg-zinc-900/80 p-1 rounded-xl border border-zinc-800 z-50">
               <button type="button" onClick={() => setLang("en")} className={`px-3 py-1 text-[11px] font-bold rounded-lg transition-all ${lang === "en" ? "bg-amber-500 text-black shadow" : "text-zinc-400 hover:text-white"}`}>EN</button>
               <button type="button" onClick={() => setLang("ku")} className={`px-3 py-1 text-[11px] font-bold rounded-lg transition-all ${lang === "ku" ? "bg-amber-500 text-black shadow" : "text-zinc-400 hover:text-white"}`}>کوردی</button>
               <button type="button" onClick={() => setLang("fa")} className={`px-3 py-1 text-[11px] font-bold rounded-lg transition-all ${lang === "fa" ? "bg-amber-500 text-black shadow" : "text-zinc-400 hover:text-white"}`}>فارسی</button>
@@ -231,125 +237,19 @@ export default function Home() {
             <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
             {t.heroBadge}
           </div>
-          <h1 className="text-4xl md:text-7xl font-black tracking-tight max-w-5xl mx-auto leading-[1.15] mb-8 bg-gradient-to-b from-white via-zinc-200 to-zinc-500 bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-7xl font-black tracking-tight max-w-5xl mx-auto leading-[1.15] mb-8 bg-gradient-to-b from-white via-zinc-100 to-zinc-400 bg-clip-text text-transparent">
             {t.heroTitle}
           </h1>
-          <p className="text-sm md:text-base text-zinc-400 max-w-2xl mx-auto mb-12 font-light drop-shadow-sm">
+          <p className="text-sm md:text-base text-zinc-400 max-w-2xl mx-auto mb-12 font-light">
             {t.heroDesc}
           </p>
-          <button onClick={() => setIsOpen(true)} className="px-8 py-4 bg-gradient-to-r from-amber-400 to-orange-500 text-black rounded-xl font-bold hover:opacity-90 transition-all text-sm uppercase tracking-wider shadow-2xl shadow-amber-500/10 relative z-20">
+          <button onClick={() => setIsOpen(true)} className="px-8 py-4 bg-gradient-to-r from-amber-400 to-orange-500 text-black rounded-xl font-bold hover:opacity-90 transition-all text-sm uppercase tracking-wider shadow-2xl shadow-amber-500/10">
             {t.createBtn}
           </button>
         </main>
 
         {/* Dashboard Section */}
-        <section id="dashboard" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-zinc-900 relative z-10">
+        <section id="dashboard" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-zinc-900/60 relative z-10">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-12 gap-4">
             <div>
-              <h2 className="text-xl font-bold uppercase tracking-wider">{t.consoleTitle}</h2>
-              <p className="text-xs text-zinc-500">{t.consoleDesc}</p>
-            </div>
-            <div className="text-xs font-mono bg-zinc-900/60 border border-zinc-800 px-4 py-2 rounded-xl text-zinc-400 backdrop-blur-sm">
-              {t.clusterCount}: <span className="text-amber-400 font-bold">{agents.length}</span>
-            </div>
-          </div>
-
-          {agents.length === 0 ? (
-            <div className="text-center py-20 border border-dashed border-zinc-800 rounded-2xl bg-zinc-950/20 backdrop-blur-sm">
-              <p className="text-zinc-500 text-sm">{t.empty}</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {agents.map((agent) => (
-                <div key={agent.id} onClick={() => handleOpenChat(agent)} className="group p-6 rounded-2xl border border-zinc-900 bg-zinc-950/40 backdrop-blur-sm flex flex-col justify-between gap-6 hover:border-amber-500/30 transition-all duration-300 cursor-pointer">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <div className="flex items-center gap-2 mb-1.5">
-                        <h3 className="font-bold text-base text-zinc-200">{agent.name}</h3>
-                        <span className="text-[9px] px-2 py-0.5 rounded uppercase font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                          {agent.status}
-                        </span>
-                      </div>
-                      <p className="text-xs text-zinc-500">{agent.role}</p>
-                    </div>
-                    <div className="w-7 h-7 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-500">☼</div>
-                  </div>
-                  <div className="flex items-center justify-between text-[11px] border-t border-zinc-900/60 pt-4 font-mono text-zinc-600">
-                    <span>{agent.createdAt}</span>
-                    <button onClick={(e) => handleDeleteAgent(agent.id, e)} className="hover:text-red-400 transition-colors">
-                      {t.purge}
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
-
-        {/* Chat Terminal */}
-        {activeChatAgent && (
-          <div className={`fixed bottom-6 ${lang === "en" ? "right-6" : "left-6"} w-full max-w-md h-[520px] bg-black/95 border border-zinc-800 rounded-2xl shadow-2xl shadow-amber-500/5 z-40 flex flex-col overflow-hidden animate-in slide-in-from-bottom-5 duration-300`}>
-            <div className="p-4 border-b border-zinc-900 bg-zinc-950/80 backdrop-blur-md flex items-center justify-between relative">
-              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-emerald-500 via-amber-400 to-red-500" />
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-                <div>
-                  <h3 className="font-bold text-xs uppercase">{activeChatAgent.name}</h3>
-                </div>
-              </div>
-              <button onClick={() => setActiveChatAgent(null)} className="text-zinc-500 hover:text-white text-xs">✕</button>
-            </div>
-            <div className="flex-1 p-4 overflow-y-auto space-y-4 text-xs font-light">
-              {chatMessages.map((msg) => (
-                <div key={msg.id} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
-                  <div className={`max-w-[85%] rounded-xl px-4 py-3 border ${
-                    msg.sender === "user" ? "bg-zinc-100 text-black border-transparent font-medium shadow-lg" : "bg-zinc-900/60 text-zinc-200 border-zinc-800/80 backdrop-blur-sm"
-                  }`}>
-                    {msg.text}
-                  </div>
-                </div>
-              ))}
-              {isAgentTyping && <div className="text-zinc-600 font-mono text-[10px] animate-pulse">{t.typing}</div>}
-            </div>
-            <form onSubmit={handleSendMessage} className="p-4 border-t border-zinc-900 bg-zinc-950/40 backdrop-blur-md">
-              <div className="flex gap-2">
-                <input type="text" placeholder={`${t.queryPlaceholder} ${activeChatAgent.name}...`} value={inputMessage} onChange={(e) => setInputMessage(e.target.value)} className="flex-1 bg-zinc-900/80 border border-zinc-800 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500/40 transition-colors" />
-                <button type="submit" className="bg-amber-400 text-black font-bold px-4 rounded-xl text-xs hover:bg-amber-500 transition-colors tracking-wider">
-                  {t.send}
-                </button>
-              </div>
-            </form>
-          </div>
-        )}
-
-        {/* Create Agent Modal */}
-        {isOpen && (
-          <div className="fixed inset-0 bg-black/95 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div className="bg-zinc-950 border border-zinc-800 w-full max-w-sm rounded-2xl p-6 relative shadow-2xl shadow-amber-500/5 animate-in fade-in zoom-in-95 duration-200">
-              <button onClick={() => setIsOpen(false)} className="absolute top-4 right-4 text-zinc-500 hover:text-white text-sm p-1">✕</button>
-              <h2 className="text-base font-bold mb-1 uppercase tracking-wider">{t.modalTitle}</h2>
-              <p className="text-xs text-zinc-500 mb-6">{t.modalDesc}</p>
-              <form onSubmit={handleSubmit} className="space-y-4 text-xs">
-                <div>
-                  <label className="block text-[10px] uppercase tracking-wider text-zinc-500 mb-1">{t.agentNameLabel}</label>
-                  <input type="text" required value={agentName} onChange={(e) => setAgentName(e.target.value)} className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500/30 transition-colors" />
-                </div>
-                <div>
-                  <label className="block text-[10px] uppercase tracking-wider text-zinc-500 mb-1">{t.objectiveLabel}</label>
-                  <select value={agentRole} onChange={(e) => setAgentRole(e.target.value)} className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500/30 transition-colors">
-                    <option value="support">Customer Support & FAQ</option>
-                    <option value="sales">Lead Generation & Sales</option>
-                    <option value="internal">Internal Operations Expert</option>
-                  </select>
-                </div>
-                <button type="submit" disabled={isCreated} className="w-full mt-4 py-3.5 bg-zinc-100 text-black font-bold rounded-xl text-[11px] uppercase tracking-widest hover:bg-amber-400 transition-colors disabled:opacity-70">
-                  {isCreated ? t.loadingBtn : t.deployBtn}
-                </button>
-              </form>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
+              <h2 className="
